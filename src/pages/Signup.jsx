@@ -20,6 +20,9 @@ function Signup() {
     const fetchPincodeData = async (value) => {
         setLoading(true);
 
+
+
+
         try {
             const response = await axios.get(`https://api.postalpincode.in/pincode/${value}`);
             const data = response.data[0];
@@ -67,6 +70,22 @@ function Signup() {
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData)
         setMainLoading(true)
+        // Validate PIN code
+        if (!pincode || pincode.length !== 6) {
+            toast.error("Please enter a valid 6-digit PIN code");
+            return;
+        }
+
+        // Validate state and city (from PIN code lookup)
+        if (!state || !city) {
+            toast.error("Please verify your location by entering a valid PIN code");
+            return;
+        }
+
+        // Add the validated state and city to the form data
+        data.state = state;
+        data.city = city;
+        data.pincode = pincode;
         try {
             await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register`, data).then(res => {
                 console.log(res);
@@ -199,6 +218,7 @@ function Signup() {
                                 <label htmlFor="state" className="sr-only">State</label>
                                 <div className="relative">
                                     <input
+                                        onChange={''}
                                         type="text"
                                         className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm outline-none focus:ring-1 ring-lightOrange duration-200"
                                         placeholder="Enter State"
@@ -214,6 +234,7 @@ function Signup() {
                                 <label htmlFor="city" className="sr-only">City</label>
                                 <div className="relative">
                                     <input
+                                        onChange={''}
                                         type="text"
                                         className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm outline-none focus:ring-1 ring-lightOrange duration-200"
                                         placeholder="Enter City"

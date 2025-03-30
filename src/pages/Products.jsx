@@ -8,6 +8,7 @@ import ProductCard from "../components/ProductCard/ProductCard"
 
 function Products() {
     const { productsList } = useAuth();
+    console.log(productsList);
 
     return (
         <>

@@ -10,9 +10,8 @@ function ProductDetail() {
     const [productData, setProductData] = useState({});
     const mainSliderRef = useRef(null);
     const thumbSliderRef = useRef(null);
-
     const { id } = useParams();
-
+    console.log(productData);
     useEffect(() => {
         async function getProduct() {
             try {

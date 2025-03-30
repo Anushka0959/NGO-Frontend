@@ -1,4 +1,24 @@
+import axios from "axios";
+import { useEffect, useState } from "react"
+
 function Dashboard() {
+    const [allUsers, setAllUsers] = useState(null);
+
+    // Api to fetch all users...
+    const fetchAllUsers = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/admin/users`);
+            console.log(response);
+
+            setAllUsers(response.data); // Store the response data in state
+            console.log("Fetched users:", response.data);
+        } catch (err) {
+            console.error("Error fetching users:", err);
+        }
+    };
+    useEffect(() => {
+        fetchAllUsers();
+    }, []);
     return (
         <>
             <div className="h-screen">
